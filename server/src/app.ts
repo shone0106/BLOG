@@ -9,6 +9,8 @@ import userRouter from './routes/userRouter'
 
 const app = express()
 
+app.use(express.static('client/dist'))
+
 app.use(express.json())
 
   const sessionOptions = session({
