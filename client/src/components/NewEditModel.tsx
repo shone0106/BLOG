@@ -58,7 +58,7 @@ export default function NewEditModel() {
             <Form.Control as="textarea" rows={5} placeholder="Text" 
             {...register('text', {required: true})}
             />
-            {errors.title && <span style={{color: 'red'}}>This field is required</span>}
+            {errors.text && <span style={{color: 'red'}}>This field is required</span>}
           </Form.Group>
         </Form>
 
