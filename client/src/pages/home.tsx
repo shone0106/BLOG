@@ -20,8 +20,8 @@ function Home() {
     <>
       <h1>All Posts</h1>
       {
-        user &&
-        <Button onClick={onAddNewPostClick}>Add new post</Button>
+        // user &&
+        <Button onClick={onAddNewPostClick} className='mb-2'>Add new post</Button>
       }
 
       {
