@@ -18,7 +18,7 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const User_1 = __importDefault(require("../models/User"));
 const getAuthenticatedUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const userId = req.session.userId;
+        const userId = req.session.user.userId;
         const user = yield User_1.default.findById(userId).exec();
         res.status(200).json(user);
     }
@@ -39,7 +39,7 @@ const signUp = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
             throw (0, http_errors_1.default)(409, 'Username already taken. Please choose a different one or log in instead.');
         const hashedPassword = yield bcrypt_1.default.hash(password, 10);
         const newUser = yield User_1.default.create({ username: username, password: hashedPassword });
-        req.session.userId = newUser._id;
+        req.session.user = { userId: newUser._id, username: newUser.username };
         res.status(201).json(newUser);
     }
     catch (error) {
@@ -60,7 +60,7 @@ const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
         if (!(yield bcrypt_1.default.compare(password, user.password))) {
             throw (0, http_errors_1.default)(401, "Invalid credentials");
         }
-        req.session.userId = user._id;
+        req.session.user = { userId: user._id, username: user.username };
         yield req.session.save();
         res.status(201).json(user);
     }

@@ -46,7 +46,8 @@ exports.getNote = getNote;
 const createNote = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const title = req.body.title;
     const text = req.body.text;
-    const userId = req.session.userId;
+    const userId = req.session.user.userId;
+    const username = req.session.user.username;
     try {
         if (!userId) {
             throw (0, http_errors_1.default)(401, "You must be logged in to perform this action");
@@ -58,6 +59,7 @@ const createNote = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
             authorId: userId,
             title: title,
             text: text,
+            authorName: username
         });
         res.status(201).json(newPost);
     }
@@ -70,7 +72,7 @@ const updateNote = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
     const postId = req.params.postId;
     const newTitle = req.body.title;
     const newText = req.body.text;
-    const userId = req.session.userId;
+    const userId = req.session.user.userId;
     try {
         if (!userId) {
             throw (0, http_errors_1.default)(401, "You cannot access this note");
@@ -100,7 +102,7 @@ const updateNote = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
 exports.updateNote = updateNote;
 const deleteNote = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const postId = req.params.postId;
-    const userId = req.session.userId;
+    const userId = req.session.user.userId;
     try {
         if (!userId) {
             throw (0, http_errors_1.default)(401, "You cannot access this note");
