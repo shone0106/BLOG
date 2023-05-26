@@ -3,6 +3,7 @@ export default interface Post{
     title: string,
     text?: string,
     authorId: string,
+    authorName: string,
     createdAt: string,
     updatedAt: string,
 }

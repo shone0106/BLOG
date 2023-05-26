@@ -12,7 +12,7 @@ export default function PostCard(post: Post) {
     <Card style={{ width: '18rem', height: '16rem' }}>
       <Card.Body>
         <Card.Title>{post.title}</Card.Title>
-        <Card.Subtitle className="mb-2 text-muted">{new Date(post.createdAt).toLocaleString()}</Card.Subtitle>
+        <Card.Subtitle className="mb-2 text-muted">{`Author: ${post.authorName}`}</Card.Subtitle>
         <Card.Text>
           {post.text?.slice(0, Math.min(130, post.text.length))}
         </Card.Text>

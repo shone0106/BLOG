@@ -6,7 +6,7 @@ import UserModel from '../models/User'
 
 export const getAuthenticatedUser: RequestHandler = async (req, res, next) => {
     try {
-        const userId = req.session.userId!
+        const userId = req.session.user!.userId!
         const user = await UserModel.findById(userId).exec();
         res.status(200).json(user);
     } catch (error) {
@@ -36,7 +36,7 @@ export const signUp: RequestHandler<unknown, unknown, signUpLoginBody, unknown> 
 
         const newUser = await UserModel.create({username: username, password: hashedPassword})
 
-        req.session.userId = newUser._id
+        req.session.user = { userId: newUser._id, username: newUser.username }
 
         res.status(201).json(newUser)
     }
@@ -62,7 +62,8 @@ export const login: RequestHandler<unknown, unknown, signUpLoginBody, unknown> =
             throw createHttpError(401, "Invalid credentials")
         }
 
-        req.session.userId = user._id
+        req.session.user = { userId:user._id, username: user.username }
+
         await req.session.save()
         res.status(201).json(user)
     }

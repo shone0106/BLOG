@@ -2,7 +2,6 @@ import { RequestHandler } from 'express'
 import mongoose from 'mongoose'
 import createHttpError from "http-errors";
 import postModel from '../models/Post'
-import { assertIsDefined } from '../utils/assertIsDefined';
 
 
 export const getNotes: RequestHandler = async (req, res, next) =>{
@@ -45,7 +44,8 @@ interface CreatePostBody {
 export const createNote: RequestHandler<unknown, unknown, CreatePostBody, unknown> = async (req, res, next) => {
     const title = req.body.title;
     const text = req.body.text;
-    const userId = req.session.userId
+    const userId = req.session.user!.userId
+    const username = req.session.user!.username
 
     try {
         if(!userId){
@@ -60,6 +60,7 @@ export const createNote: RequestHandler<unknown, unknown, CreatePostBody, unknow
             authorId: userId,
             title: title,
             text: text,
+            authorName: username
         });
 
         res.status(201).json(newPost);
@@ -82,7 +83,7 @@ export const updateNote: RequestHandler<PostParams, unknown, UpdatePostBody, unk
     const newTitle = req.body.title;
     const newText = req.body.text;
 
-    const userId = req.session.userId
+    const userId = req.session.user!.userId
 
     try {
 
@@ -123,7 +124,7 @@ export const updateNote: RequestHandler<PostParams, unknown, UpdatePostBody, unk
 export const deleteNote : RequestHandler<PostParams, unknown, unknown, unknown> = async (req, res, next) => {
     const postId = req.params.postId
     
-    const userId = req.session.userId
+    const userId = req.session.user!.userId
 
     try{
 

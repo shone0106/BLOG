@@ -1,6 +1,7 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
 import Card from 'react-bootstrap/Card';
+import { Button } from 'react-bootstrap';
 
 import Post from '../models/Post'
 import * as postApi from '../network/postApi'
@@ -43,7 +44,8 @@ function ViewSingle() {
       <Card >
         <Card.Body>
           <Card.Title>{post.title}</Card.Title>
-          <Card.Subtitle className="mb-2 text-muted">{post.createdAt}</Card.Subtitle>
+          <Card.Subtitle className="mb-2 text-muted">{`Author: ${post.authorName}`}</Card.Subtitle>
+          <Card.Subtitle className="mb-2 text-muted">{new Date(post.createdAt).toLocaleString([], {year: 'numeric', month: 'numeric', day: 'numeric'})}</Card.Subtitle>
           <Card.Text>
             {post.text}
           </Card.Text>
@@ -51,8 +53,8 @@ function ViewSingle() {
           (user && user._id === post.authorId)
            ?
               <>
-                <Card.Link href="#" onClick={editPost}>EDIT</Card.Link>
-                <Card.Link href="#" onClick={deletePost}>DELETE</Card.Link>
+                <Button variant="info" onClick={editPost} className='me-2'>EDIT</Button>
+                <Button variant="danger" onClick={deletePost}>DELETE</Button>
               </>
            :
               <>

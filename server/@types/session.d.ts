@@ -1,7 +1,11 @@
 import mongoose from "mongoose";
 
+interface User{
+    userId: mongoose.Types.ObjectId;
+    username: string;
+}
 declare module "express-session" {
     interface SessionData {
-        userId: mongoose.Types.ObjectId;
+        user: User;
     }
 }

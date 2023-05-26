@@ -37,7 +37,7 @@ export function AuthContextProvider({children}: {children: ReactNode}){
            catch(error){
             console.log(error)
            }
-        }
+        } 
         getLoggedInUser()
     },[])
 
